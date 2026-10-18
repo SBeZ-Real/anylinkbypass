@@ -1,3 +1,46 @@
 {
-  "modules": []
+  "modules": [
+    {
+      "id": "layma",
+      "domains": [
+        "layma.net"
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/duckpjvzexe/projectscript112247/main/layma_net/ObfFuncV2.js",
+      "enabled": true
+    },
+    {
+      "id": "synurl",
+      "domains": [
+        "synurl.vip"
+      ],
+      "sourceUrl": "https://loader.verrni.fun/api/loader/synurl-bypass.js",
+      "enabled": true
+    },
+    {
+      "id": "link4sub",
+      "domains": [
+        "link4sub.com",
+        "4sub.link"
+      ],
+      "sourceUrl": "https://cdn.verrni.fun/raw/Bypass/Link4Sub/Link4SubBP.js",
+      "enabled": true
+    },
+    {
+      "id": "sitetop",
+      "domains": [
+        "sitetop.net"
+      ],
+      "sourceUrl": "https://cdn.verrni.fun/raw/Bypass/SiteTop/SiteTop.js",
+      "enabled": true
+    },
+    {
+      "id": "move2link",
+      "domains": [
+        "move2link.com",
+        "move2link.co"
+      ],
+      "sourceUrl": "https://cdn.verrni.fun/raw/Bypass/Move2Link/Move2Link.js",
+      "enabled": true
+    }
+  ]
 }
