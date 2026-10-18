@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AnyLinkBypass
 // @namespace    https://github.com/SBeZ-Real/anylinkbypass
-// @version      0.2.0
+// @version      0.2.1
 // @description  Load site-specific bypass modules from GitHub
 // @match        *://*/*
 // @run-at       document-start
@@ -15,7 +15,7 @@
   const OWNER = 'SBeZ-Real';
   const REPO = 'anylinkbypass';
   const BRANCH = 'main';
-  const MANIFEST = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/modules/manifest.json`;
+  const MANIFEST = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/modules/manifest.json?t=${Date.now()}`;
   const host = location.hostname.toLowerCase();
 
   const request = url => new Promise((resolve, reject) => {
@@ -48,7 +48,7 @@
       for (const entry of selected) {
         const path = entry.file.replace(/^\/+/, '');
         if (path.split('/').includes('..')) continue;
-        const sourceUrl = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${path.split('/').map(encodeURIComponent).join('/')}`;
+        const sourceUrl = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${path.split('/').map(encodeURIComponent).join('/')}?t=${Date.now()}`;
         const source = await request(sourceUrl);
         const moduleFactory = new Function('"use strict";return (' + source + '\n);');
         const moduleHandler = moduleFactory();
