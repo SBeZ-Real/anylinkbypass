@@ -31,7 +31,7 @@
     'GM_xmlhttpRequest', 'GM_setValue', 'GM_getValue', 'GM_deleteValue',
     'GM_listValues', 'GM_setClipboard', 'GM_addStyle', 'GM_registerMenuCommand',
     'GM_openInTab', 'GM_download', 'GM_notification', 'GM_info',
-    '"use strict";\\n' + _d
+    _d
   );
   _f(
     window, document, navigator, location, unsafeWindow, fetch,
