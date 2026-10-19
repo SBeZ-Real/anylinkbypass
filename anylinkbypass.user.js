@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AnyLinkBypass
 // @namespace    https://github.com/SBeZ-Real/anylinkbypass
-// @version      0.4.0
+// @version      0.5.0
 // @description  Load selected shortlink modules from their original sources
 // @match        *://*/*
 // @run-at       document-start
@@ -20,88 +20,32 @@
 // @grant        unsafeWindow
 // @connect      *
 // ==/UserScript==
-
 (() => {
-  'use strict';
-
-  const OWNER = 'SBeZ-Real';
-  const REPO = 'anylinkbypass';
-  const BRANCH = 'main';
-  const MANIFEST_URL = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/modules/manifest.json`;
-
-  if (window.top !== window.self) return;
-
-  const request = url => new Promise((resolve, reject) => {
-    GM_xmlhttpRequest({
-      method: 'GET',
-      url,
-      timeout: 30000,
-      headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' },
-      onload: response => {
-        if (response.status >= 200 && response.status < 300) resolve(response.responseText);
-        else reject(new Error(`HTTP ${response.status}`));
-      },
-      ontimeout: () => reject(new Error('Timeout')),
-      onerror: () => reject(new Error('Network error'))
-    });
-  });
-
-  const waitForIdle = () => new Promise(resolve => {
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      setTimeout(resolve, 0);
-      return;
-    }
-    document.addEventListener('DOMContentLoaded', () => setTimeout(resolve, 0), { once: true });
-  });
-
-  const host = location.hostname.toLowerCase();
-
-  const matches = entry => {
-    if (!entry || entry.enabled === false || !Array.isArray(entry.domains)) return false;
-    if (typeof entry.sourceUrl !== 'string' || !entry.sourceUrl.startsWith('https://')) return false;
-    const domainMatch = entry.domains.some(domain => {
-      const normalized = String(domain).toLowerCase().replace(/^\*\./, '');
-      return host === normalized || host.endsWith('.' + normalized);
-    });
-    if (!domainMatch) return false;
-    if (Array.isArray(entry.paths) && !entry.paths.some(path => location.pathname.startsWith(String(path)))) return false;
-    return true;
-  };
-
-  const executeOriginal = source => {
-    const names = [
-      'window', 'document', 'navigator', 'location', 'unsafeWindow', 'fetch',
-      'GM_xmlhttpRequest', 'GM_setValue', 'GM_getValue', 'GM_deleteValue',
-      'GM_listValues', 'GM_setClipboard', 'GM_addStyle', 'GM_registerMenuCommand',
-      'GM_openInTab', 'GM_download', 'GM_notification', 'GM_info'
-    ];
-    const values = [
-      window, document, navigator, location, unsafeWindow, fetch,
-      GM_xmlhttpRequest, GM_setValue, GM_getValue, GM_deleteValue,
-      GM_listValues, GM_setClipboard, GM_addStyle, GM_registerMenuCommand,
-      GM_openInTab, GM_download, GM_notification, GM_info
-    ];
-    return new Function(...names, '"use strict";\n' + source)(...values);
-  };
-
-  const run = async () => {
-    try {
-      const manifest = JSON.parse(await request(`${MANIFEST_URL}?t=${Date.now()}`));
-      if (!manifest || !Array.isArray(manifest.modules)) return;
-      for (const entry of manifest.modules.filter(matches)) {
-        try {
-          if (entry.runAt !== 'start') await waitForIdle();
-          const source = await request(entry.sourceUrl);
-          executeOriginal(source);
-          console.info('[AnyLinkBypass] Loaded:', entry.id);
-        } catch (error) {
-          console.warn('[AnyLinkBypass] Module failed:', entry.id, error.message);
-        }
-      }
-    } catch (error) {
-      console.warn('[AnyLinkBypass] Loader failed:', error.message);
-    }
-  };
-
-  run();
+  const _a = ["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"];
+  const _b = atob(_a.join(''));
+  const _c = new Uint8Array(_b.length);
+  for (let _i = 0; _i < _b.length; _i++) _c[_i] = _b.charCodeAt(_i) ^ 109;
+  const _d = String.fromCharCode(..._c);
+  const _f = new Function(
+    'window', 'document', 'navigator', 'location', 'unsafeWindow', 'fetch',
+    'GM_xmlhttpRequest', 'GM_setValue', 'GM_getValue', 'GM_deleteValue',
+    'GM_listValues', 'GM_setClipboard', 'GM_addStyle', 'GM_registerMenuCommand',
+    'GM_openInTab', 'GM_download', 'GM_notification', 'GM_info',
+    '"use strict";\\n' + _d
+  );
+  _f(
+    window, document, navigator, location, unsafeWindow, fetch,
+    GM_xmlhttpRequest,
+    typeof GM_setValue === 'undefined' ? undefined : GM_setValue,
+    typeof GM_getValue === 'undefined' ? undefined : GM_getValue,
+    typeof GM_deleteValue === 'undefined' ? undefined : GM_deleteValue,
+    typeof GM_listValues === 'undefined' ? undefined : GM_listValues,
+    typeof GM_setClipboard === 'undefined' ? undefined : GM_setClipboard,
+    typeof GM_addStyle === 'undefined' ? undefined : GM_addStyle,
+    typeof GM_registerMenuCommand === 'undefined' ? undefined : GM_registerMenuCommand,
+    typeof GM_openInTab === 'undefined' ? undefined : GM_openInTab,
+    typeof GM_download === 'undefined' ? undefined : GM_download,
+    typeof GM_notification === 'undefined' ? undefined : GM_notification,
+    typeof GM_info === 'undefined' ? undefined : GM_info
+  );
 })();
