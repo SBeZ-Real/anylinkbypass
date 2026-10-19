@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         AnyLinkBypass
 // @namespace    https://github.com/SBeZ-Real/anylinkbypass
-// @version      0.3.0
+// @version      0.4.0
 // @description  Load selected shortlink modules from their original sources
 // @match        *://*/*
-// @run-at       document-idle
+// @run-at       document-start
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setValue
 // @grant        GM_getValue
@@ -35,7 +35,7 @@
     GM_xmlhttpRequest({
       method: 'GET',
       url,
-      timeout: 20000,
+      timeout: 30000,
       headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' },
       onload: response => {
         if (response.status >= 200 && response.status < 300) resolve(response.responseText);
@@ -44,6 +44,14 @@
       ontimeout: () => reject(new Error('Timeout')),
       onerror: () => reject(new Error('Network error'))
     });
+  });
+
+  const waitForIdle = () => new Promise(resolve => {
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      setTimeout(resolve, 0);
+      return;
+    }
+    document.addEventListener('DOMContentLoaded', () => setTimeout(resolve, 0), { once: true });
   });
 
   const host = location.hostname.toLowerCase();
@@ -82,6 +90,7 @@
       if (!manifest || !Array.isArray(manifest.modules)) return;
       for (const entry of manifest.modules.filter(matches)) {
         try {
+          if (entry.runAt !== 'start') await waitForIdle();
           const source = await request(entry.sourceUrl);
           executeOriginal(source);
           console.info('[AnyLinkBypass] Loaded:', entry.id);
