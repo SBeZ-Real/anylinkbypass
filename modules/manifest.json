@@ -6,7 +6,8 @@
         "layma.net"
       ],
       "sourceUrl": "https://raw.githubusercontent.com/duckpjvzexe/projectscript112247/main/layma_net/ObfFuncV2.js",
-      "enabled": true
+      "enabled": true,
+      "runAt": "idle"
     },
     {
       "id": "synurl",
@@ -14,7 +15,8 @@
         "synurl.vip"
       ],
       "sourceUrl": "https://loader.verrni.fun/api/loader/synurl-bypass.js",
-      "enabled": true
+      "enabled": true,
+      "runAt": "idle"
     },
     {
       "id": "link4sub",
@@ -23,7 +25,8 @@
         "4sub.link"
       ],
       "sourceUrl": "https://cdn.verrni.fun/raw/Bypass/Link4Sub/Link4SubBP.js",
-      "enabled": true
+      "enabled": true,
+      "runAt": "idle"
     },
     {
       "id": "sitetop",
@@ -31,7 +34,8 @@
         "sitetop.net"
       ],
       "sourceUrl": "https://cdn.verrni.fun/raw/Bypass/SiteTop/SiteTop.js",
-      "enabled": true
+      "enabled": true,
+      "runAt": "idle"
     },
     {
       "id": "move2link",
@@ -40,6 +44,18 @@
         "move2link.co"
       ],
       "sourceUrl": "https://cdn.verrni.fun/raw/Bypass/Move2Link/Move2Link.js",
+      "enabled": true,
+      "runAt": "idle"
+    },
+    {
+      "id": "link4m",
+      "domains": [
+        "link4m.net",
+        "link4m.com",
+        "link4m.org"
+      ],
+      "sourceUrl": "https://raw.githubusercontent.com/longndev/VNBP/refs/heads/main/Link4M/link4m.js",
+      "runAt": "start",
       "enabled": true
     }
   ]
